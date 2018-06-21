@@ -22,7 +22,7 @@ HERE="${SELF%/*}"
 
 cd "${HERE}"
 
-QMAKE=/opt/510/bin/qmake
+QMAKE=/opt/qt510/bin/qmake
 LIB_PATH=`$QMAKE -query QT_INSTALL_LIBS`
 
 rm -rf build

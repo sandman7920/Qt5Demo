@@ -5,6 +5,11 @@ if ! patchelf --help >/dev/null 2>&1; then
     exit 1
 fi
 
+if ! curl --help >/dev/null 2>&1; then
+    echo "please install curl"
+    exit 1
+fi
+
 set -e
 
 KDE_LIST="libQt5Concurrent.so.5 libQt5Core.so.5 libQt5DBus.so.5 libQt5Gui.so.5"
@@ -71,3 +76,6 @@ for EXE in `find build/ -type f -executable`; do
     "${HERE}/appimagetool" -n "${HERE}/appimages/${FNAME}.AppDir"
     cd "${HERE}"
 done
+
+rm -rf build
+rm -rf appimages

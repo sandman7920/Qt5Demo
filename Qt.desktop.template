@@ -1,0 +1,1 @@
+TEMPLATE="[Desktop Entry]\\nType=Application\\nName=%s\\nExec=%s\\nIcon=qt\\nCategories=Qt;\\n"

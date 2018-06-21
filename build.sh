@@ -66,6 +66,9 @@ for EXE in `find build/ -type f -executable`; do
     ln -s "usr/bin/${FNAME}.qt5run" AppRun
     cd "${HERE}"
     
+    cp /usr/lib/libpng*.so.0 "appimages/${FNAME}.AppDir/usr/lib" || true
+    cp /usr/lib/x86_64-linux-gnu/libpng*.so.0 "appimages/${FNAME}.AppDir/usr/lib" || true
+    
     for lib in ${KDE_LIST}; do
         cp "${LIB_PATH}/${lib}" "appimages/${FNAME}.AppDir/usr/lib"
         patchelf --set-rpath \$ORIGIN "appimages/${FNAME}.AppDir/usr/lib/${lib}"

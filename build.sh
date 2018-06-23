@@ -36,13 +36,6 @@ PLUGINS_DIR="`$QMAKE -query QT_INSTALL_PLUGINS`"
 XCB_DEPS="`ldd "${PLUGINS_DIR}/platforms/libqxcb.so"|egrep '^\s*libxcb-'|sed 's/.*=> //;s/ .*//'`"
 IMG_DEPS="/usr/lib/x86_64-linux-gnu/libjpeg.so.8  /usr/lib/x86_64-linux-gnu/libmng.so.2 /usr/lib/x86_64-linux-gnu/liblcms2.so.2 /usr/lib/x86_64-linux-gnu/libjasper.so.1 /usr/lib/x86_64-linux-gnu/libwebp.so.5 /usr/lib/x86_64-linux-gnu/libwebpdemux.so.1 /usr/lib/x86_64-linux-gnu/libpng12.so.0"
 
-rm -rf build
-mkdir -p build
-cd build
-$QMAKE ../src/mainwindows.pro
-make -j5
-cd "${HERE}"
-
 if [ ! -x ./linuxdeployqt ]; then
     curl -L https://github.com/probonopd/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage >linuxdeployqt
     chmod 755 linuxdeployqt
@@ -57,6 +50,13 @@ if [ ! -x ./appimage.qt5run ]; then
     curl -L https://github.com/sandman7920/AppImageQt5run/releases/download/v0.4/appimage-gcc4.8.4-GLIBC_2.2.5-GLIBCXX_3.4.9.qt5run >appimage.qt5run
     chmod 755 appimage.qt5run
 fi
+
+rm -rf build
+mkdir -p build
+cd build
+$QMAKE ../src/mainwindows.pro
+make -j5
+cd "${HERE}"
 
 rm -rf appimages
 . Qt.desktop.template

@@ -22,7 +22,7 @@ HERE="${SELF%/*}"
 
 cd "${HERE}"
 
-QMAKE=/home/nik/Applications/Qt/5.11.0/gcc_64/bin/qmake
+QMAKE=/opt/qt510/bin/qmake
 LIB_PATH=`$QMAKE -query QT_INSTALL_LIBS`
 PLUGINS_DIR="`$QMAKE -query QT_INSTALL_PLUGINS`"
 XCB="`ldd "${PLUGINS_DIR}/platforms/libqxcb.so"|egrep '^\s*libxcb-'|sed 's/.*=> //;s/ .*//'`"
@@ -45,7 +45,7 @@ if [ ! -x ./appimagetool ]; then
 fi
 
 if [ ! -x ./appimage.qt5run ]; then
-    curl -L https://github.com/sandman7920/AppImageQt5run/releases/download/v0.3/appimage-gcc4.8.4-GLIBC_2.2.5-GLIBCXX_3.4.9.qt5run >appimage.qt5run
+    curl -L https://github.com/sandman7920/AppImageQt5run/releases/download/v0.4/appimage-gcc4.8.4-GLIBC_2.2.5-GLIBCXX_3.4.9.qt5run >appimage.qt5run
     chmod 755 appimage.qt5run
 fi
 

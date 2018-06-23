@@ -24,6 +24,8 @@ cd "${HERE}"
 
 QMAKE=/home/nik/Applications/Qt/5.11.0/gcc_64/bin/qmake
 LIB_PATH=`$QMAKE -query QT_INSTALL_LIBS`
+PLUGINS_DIR="`$QMAKE -query QT_INSTALL_PLUGINS`"
+XCB="`ldd "${PLUGINS_DIR}/platforms/libqxcb.so"|egrep '^\s*libxcb-'|sed 's/.*=> //;s/ .*//'`"
 
 rm -rf build
 mkdir -p build
@@ -68,7 +70,8 @@ for EXE in `find build/ -type f -executable`; do
     
     cp /usr/lib/libpng*.so.0 "appimages/${FNAME}.AppDir/usr/lib" || true
     cp /usr/lib/x86_64-linux-gnu/libpng*.so.0 "appimages/${FNAME}.AppDir/usr/lib" || true
-    
+    cp $XCB "appimages/${FNAME}.AppDir/usr/lib" || true
+
     for lib in ${KDE_LIST}; do
         cp "${LIB_PATH}/${lib}" "appimages/${FNAME}.AppDir/usr/lib"
         patchelf --set-rpath \$ORIGIN "appimages/${FNAME}.AppDir/usr/lib/${lib}"

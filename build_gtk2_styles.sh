@@ -8,14 +8,14 @@ echo "Building GTK2 styles"
 
 PLUGINS="`qmake -query QT_INSTALL_PLUGINS`"
 
-if ! dpkg -l libgtk2.0-dev >/dev/null 2>&1; then
-    echo "Please install libgtk2.0-dev"
-    exit 1
-fi
-
 if [ -f "${PLUGINS}/styles/libqgtk2style.so" ]; then
     echo "Already installed"
     exit 0
+fi
+
+if ! dpkg -l libgtk2.0-dev >/dev/null 2>&1; then
+    echo "Please install libgtk2.0-dev"
+    exit 1
 fi
 
 # see https://www.archlinux.org/packages/community/x86_64/qt5-styleplugins/

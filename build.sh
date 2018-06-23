@@ -25,7 +25,9 @@ cd "${HERE}"
 QMAKE=/opt/qt510/bin/qmake
 LIB_PATH=`$QMAKE -query QT_INSTALL_LIBS`
 PLUGINS_DIR="`$QMAKE -query QT_INSTALL_PLUGINS`"
-XCB="`ldd "${PLUGINS_DIR}/platforms/libqxcb.so"|egrep '^\s*libxcb-'|sed 's/.*=> //;s/ .*//'`"
+
+XCB_DEPS="`ldd "${PLUGINS_DIR}/platforms/libqxcb.so"|egrep '^\s*libxcb-'|sed 's/.*=> //;s/ .*//'`"
+IMG_DEPS="/usr/lib/x86_64-linux-gnu/libjpeg.so.8  /usr/lib/x86_64-linux-gnu/libmng.so.2 /usr/lib/x86_64-linux-gnu/liblcms2.so.2 /usr/lib/x86_64-linux-gnu/libjasper.so.1 /usr/lib/x86_64-linux-gnu/libwebp.so.5 /usr/lib/x86_64-linux-gnu/libwebpdemux.so.1 /usr/lib/x86_64-linux-gnu/libpng12.so.0"
 
 rm -rf build
 mkdir -p build
@@ -68,9 +70,8 @@ for EXE in `find build/ -type f -executable`; do
     ln -s "usr/bin/${FNAME}.qt5run" AppRun
     cd "${HERE}"
     
-    cp /usr/lib/libpng*.so.0 "appimages/${FNAME}.AppDir/usr/lib" || true
-    cp /usr/lib/x86_64-linux-gnu/libpng*.so.0 "appimages/${FNAME}.AppDir/usr/lib" || true
-    cp $XCB "appimages/${FNAME}.AppDir/usr/lib" || true
+    cp $XCB_DEPS "appimages/${FNAME}.AppDir/usr/lib" || true
+    cp $IMG_DEPS "appimages/${FNAME}.AppDir/usr/lib" || true
 
     for lib in ${KDE_LIST}; do
         cp "${LIB_PATH}/${lib}" "appimages/${FNAME}.AppDir/usr/lib"

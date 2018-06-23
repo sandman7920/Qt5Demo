@@ -1,5 +1,10 @@
 #!/bin/bash
 
+if ! dpkg -l qt510base >/dev/null 2>&1; then
+    echo "Please install qt510-meta-minimal or qt510-meta-full https://launchpad.net/~beineri"
+    exit 1
+fi
+
 if ! patchelf --help >/dev/null 2>&1; then
     echo "please install patchelf"
     exit 1
@@ -21,6 +26,8 @@ SELF="`readlink -f ${0}`"
 HERE="${SELF%/*}"
 
 cd "${HERE}"
+
+"${HERE}/build_gtk2_styles.sh"
 
 QMAKE=/opt/qt510/bin/qmake
 LIB_PATH=`$QMAKE -query QT_INSTALL_LIBS`
@@ -61,7 +68,7 @@ for EXE in `find build/ -type f -executable`; do
     ${HERE}/linuxdeployqt "${OUTPUT}/${FNAME}" \
         -qmake="${QMAKE}" \
         -no-translations \
-        -extra-plugins=platformthemes/libqgtk3.so
+        -extra-plugins=platformthemes/libqgtk3.so,platformthemes/libqgtk2.so,styles
     cp appimage.qt5run "${OUTPUT}/${FNAME}.qt5run"
     cp qt.png "appimages/${FNAME}.AppDir/"
     printf "${TEMPLATE}" "${FNAME}" "${FNAME}" > "appimages/${FNAME}.AppDir/Qt.desktop"
